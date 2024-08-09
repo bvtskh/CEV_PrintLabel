@@ -1,4 +1,4 @@
-﻿using LiveCharts.Wpf;
+﻿using LiveCharts.WinForms;
 using LiveCharts;
 using PrintLabel.Common;
 using PrintLabel.Graph;
@@ -21,6 +21,10 @@ using Axis = LiveCharts.Wpf.Axis;
 using System.Windows.Markup;
 using System.Threading;
 using System.Reflection;
+using LiveCharts.Wpf;
+using System.Windows.Media;
+using LiveCharts.Definitions.Charts;
+using System.Windows;
 
 namespace PrintLabel
 {
@@ -63,6 +67,11 @@ namespace PrintLabel
                 {
                     button.Enabled = false;
                 }
+            }
+            if (AccountHelper.IsStaff(account))
+            {
+                var button = GetAllButtons(this).Where(w => w.Name == "btnConfig").FirstOrDefault();
+                button.Enabled = false;
             }
         }
         private List<UISymbolButton> GetAllButtons(Control control)
@@ -134,7 +143,7 @@ namespace PrintLabel
 
             // Cấu hình thêm cho biểu đồ tròn
             myPane.Fill = new Fill(System.Drawing.Color.White, System.Drawing.Color.LightGray, 45.0f);
-            myPane.Chart.Fill = new Fill(System.Drawing.Color.White, System.Drawing.Color.LightBlue, 45.0f);
+            //myPane.Chart.Fill = new Fill(System.Drawing.Color.White, System.Drawing.Color.LightBlue, 45.0f);
 
             // Làm mới ZedGraphControl
             graphCircle.AxisChange();
@@ -152,26 +161,22 @@ namespace PrintLabel
 
         private void ShowGraph()
         {
-
+            #region live chart
             this.BeginInvoke(new Action(() =>
             {
                 panelChart.Visible = true;
+                graphColumns.Series.Clear();
+                graphColumns.AxisX.Clear();
+                graphColumns.AxisY.Clear();
             }));
-            var data = printHelper.GetPrintLog(dtpFrom.Value, dtpTo.Value);
-            GraphPane myPane = graphColumns.GraphPane;
+           
 
-            myPane.CurveList.Clear();
-            // Đặt tiêu đề và nhãn trục
-            myPane.Title.Text = "Print normal daily report";
-            myPane.XAxis.Title.Text = $"Data form {dtpFrom.Value.Date.ToString("dd/MM/yyyy")} -> {dtpTo.Value.Date.ToString("dd/MM/yyyy")}";
-            myPane.YAxis.Title.Text = "Value";
-            // setting
+            #region data
+            var data = printHelper.GetPrintLog(dtpFrom.Value, dtpTo.Value);
             var fromDate = dtpFrom.Value.Date;
             var toDate = dtpTo.Value.Date;
             List<BarChart> BarChartList = new List<BarChart>();
             var data_id_list = data.Select(s => s.DATA_ID).Distinct().ToList();
-
-
             while (fromDate <= toDate)
             {
 
@@ -210,23 +215,139 @@ namespace PrintLabel
                 });
                 indexColor++;
             }
-            List<double> values = BarChartNewList.Select(s => (double)s.Qty).ToList();
-            // Tạo từng cột riêng biệt với màu sắc khác nhau
-            for (int i = 0; i < values.Count; i++)
+            #endregion
+            this.BeginInvoke(new Action(() =>
             {
-                double[] x = { (double)i + 1 };
-                double[] y = { values[i] };
-                BarItem bar = myPane.AddBar(BarChartNewList[i].Model, x, y, BarChartNewList[i].Color);
-            }
-            // Đặt các nhãn trục X nằm ngang
-            myPane.XAxis.Scale.IsSkipFirstLabel = false; // Hiển thị tất cả các nhãn
-            myPane.XAxis.Scale.FontSpec.Angle = 0; // Góc xoay của nhãn
-            myPane.XAxis.Type = ZedGraph.AxisType.Text;
-            myPane.XAxis.Scale.FontSpec.Size = 12;
+                List<ColumnSeries> listColumns = new List<ColumnSeries>();
+                foreach (var item in BarChartNewList)
+                {
+                    var columns = new ColumnSeries
+                    {
+                        Title = item.Model,
+                        Values = new ChartValues<double> { item.Qty },
+                        FontSize=12,
+                        Fill = new LinearGradientBrush
+                        {
+                            GradientStops = new GradientStopCollection
+                            {
+                                new GradientStop(System.Windows.Media.Color.FromRgb(item.Color.B, item.Color.R, item.Color.G), 0),   // Start color
+                                new GradientStop(System.Windows.Media.Color.FromRgb(item.Color.B, item.Color.B, item.Color.G), 1) // End color
+                            }
+                        },
+                        DataLabels = true,
+                        LabelPoint = point => point.Y.ToString(),
+                        MaxColumnWidth = double.NaN,
+                        ColumnPadding = 15   // Adjust padding as needed
+                    };
+                    listColumns.Add(columns);
+                }
+                var a = graphColumns.Series = new SeriesCollection();
+                a.AddRange(listColumns);
+            }));
+          
+            this.BeginInvoke(new Action(() =>
+            {
+                graphColumns.AxisX.Add(new Axis
+                {
+                    Title = "",
+                    Labels = new[] { "" },
+                    FontWeight = FontWeights.Bold
+                });
 
-            // Cập nhật biểu đồ
-            graphColumns.AxisChange();
-            graphColumns.Invalidate();
+                graphColumns.AxisY.Add(new Axis
+                {
+                    Title = "Value",
+                    LabelFormatter = value => value.ToString("N"),
+                    FontSize = 12,
+                    FontWeight = FontWeights.Bold
+                });
+
+                graphColumns.LegendLocation = LegendLocation.Top;
+                graphColumns.DefaultLegend.FontSize = 13;
+
+                // Disable tooltips
+                //graphColumns.DataTooltip = null;
+                // Enable zooming and panning
+                graphColumns.Zoom = ZoomingOptions.X;
+                graphColumns.Pan = PanningOptions.X;
+                graphColumns.UpdaterTick += GraphColumns_UpdaterTick; ;
+            }));
+            #endregion
+            #region zedgraph
+            //this.BeginInvoke(new Action(() =>
+            //{
+            //    panelChart.Visible = true;
+            //}));
+            //var data = printHelper.GetPrintLog(dtpFrom.Value, dtpTo.Value);
+            //GraphPane myPane = graphColumns.GraphPane;
+
+            //myPane.CurveList.Clear();
+            //// Đặt tiêu đề và nhãn trục
+            //myPane.Title.Text = "Print normal daily report";
+            //myPane.XAxis.Title.Text = $"Data form {dtpFrom.Value.Date.ToString("dd/MM/yyyy")} -> {dtpTo.Value.Date.ToString("dd/MM/yyyy")}";
+            //myPane.YAxis.Title.Text = "Value";
+            //// setting
+            //var fromDate = dtpFrom.Value.Date;
+            //var toDate = dtpTo.Value.Date;
+            //List<BarChart> BarChartList = new List<BarChart>();
+            //var data_id_list = data.Select(s => s.DATA_ID).Distinct().ToList();
+
+
+            //while (fromDate <= toDate)
+            //{
+
+            //    foreach (var id in data_id_list)
+            //    {
+            //        BarChart barChart = new BarChart();
+            //        barChart.ID = id;
+            //        barChart.Date = fromDate;
+            //        var qty = GetQty(fromDate, id, data);
+            //        if (qty <= 0) continue;
+            //        barChart.Qty = qty;
+            //        barChart.Model = printHelper.GetMasterData(id).MODEL;
+            //        BarChartList.Add(barChart);
+
+            //    }
+            //    fromDate = fromDate.AddDays(1);
+            //}
+            //List<BarChart> BarChartNewList = new List<BarChart>();
+            //var group = BarChartList.GroupBy(g => new { g.Model });
+            //int indexColor = 1;
+            //foreach (var item in group)
+            //{
+
+            //    int qty = 0;
+            //    foreach (var dt in item)
+            //    {
+            //        qty += dt.Qty;
+            //    }
+            //    BarChartNewList.Add(new BarChart
+            //    {
+            //        ID = item.First().ID,
+            //        Model = item.Key.Model,
+            //        Date = item.First().Date,
+            //        Qty = qty,
+            //        Color = DefineColor.GetColor(indexColor)
+            //    });
+            //    indexColor++;
+            //}
+            //List<double> values = BarChartNewList.Select(s => (double)s.Qty).ToList();
+            //// Tạo từng cột riêng biệt với màu sắc khác nhau
+            //for (int i = 0; i < values.Count; i++)
+            //{
+            //    double[] x = { (double)i + 1 };
+            //    double[] y = { values[i] };
+            //    BarItem bar = myPane.AddBar(BarChartNewList[i].Model, x, y, BarChartNewList[i].Color);
+            //}
+            //// Đặt các nhãn trục X nằm ngang
+            //myPane.XAxis.Scale.IsSkipFirstLabel = false; // Hiển thị tất cả các nhãn
+            //myPane.XAxis.Scale.FontSpec.Angle = 0; // Góc xoay của nhãn
+            //myPane.XAxis.Type = ZedGraph.AxisType.Text;
+            //myPane.XAxis.Scale.FontSpec.Size = 12;
+
+            //// Cập nhật biểu đồ
+            //graphColumns.AxisChange();
+            //graphColumns.Invalidate();
 
 
             ///////////////////////////////////////-----------------..........////////////
@@ -301,6 +422,18 @@ namespace PrintLabel
 
             //    myPane.AddBar(modelList[i], null, values.ToArray(), GetColor(modelList[i],BarChartNewList));
             //}
+            #endregion
+        }
+
+        private void GraphColumns_UpdaterTick(object sender)
+        {
+            foreach (var series in graphColumns.Series)
+            {
+                if (series is ColumnSeries columnSeries)
+                {
+                    columnSeries.MaxColumnWidth = double.NaN; // Set to NaN to auto-scale
+                }
+            }
         }
 
         private System.Drawing.Color GetColor(string model, List<BarChart> barChartNewList)
@@ -394,7 +527,7 @@ namespace PrintLabel
 
         private void btnDatabase_Click(object sender, EventArgs e)
         {
-            new FormDatabase().Show();
+            new FormDatabase().ShowDialog();
         }
 
         private void cbNormal_ValueChanged(object sender, bool value)
@@ -411,6 +544,16 @@ namespace PrintLabel
             {
                 worker3.RunWorkerAsync();
             }
+        }
+
+        private void btnPrintRating_Click(object sender, EventArgs e)
+        {
+            new FormPrinter(CONSTANT.PRINT_RATING_TYPE, account.FULLNAME).ShowDialog();
+        }
+
+        private void btnPrintOuterBox_Click(object sender, EventArgs e)
+        {
+            new FormPrinter(CONSTANT.PRINT_OUTERBOX_TYPE, account.FULLNAME).ShowDialog();
         }
     }
 }

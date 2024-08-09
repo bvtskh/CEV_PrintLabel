@@ -1,4 +1,5 @@
-﻿using PrintLabel.Models;
+﻿using BarTender;
+using PrintLabel.Models;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,66 @@ namespace PrintLabel.SQLHelper
             }
         }
 
+        internal bool DeleteModel(DataGridViewRow selectRow)
+        {
+            using(var db = new DBContext())
+            {
+                using(var trans = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var model = selectRow.Cells[0].Value?.ToString();
+                        if (string.IsNullOrEmpty(model))
+                        {
+                            MessageBox.Show("Không tìm thấy model này!");
+                            return false;
+                        }
+                        var cell = selectRow.Cells[1].Value?.ToString();
+                        var dest = selectRow.Cells[2].Value?.ToString();
+                        var printType = GetPrintType(selectRow.Cells[5].Value?.ToString());
+                        var dataExisted = db.MASTER_DATA.Where(w => w.MODEL == model && w.CELL == cell && w.DEST == dest && w.PRINT_TYPE == printType).FirstOrDefault();
+                        
+                        if(dataExisted == null)
+                        {
+                            MessageBox.Show("Không tìm thấy model này!");
+                            return false;
+                        }
+                        if (dataExisted != null)
+                        {
+                            db.MASTER_DATA.Remove(dataExisted);
+                            db.SaveChanges();
+                        }
+                        HISTORY_MODIFIED_DATA_MASTER history = new HISTORY_MODIFIED_DATA_MASTER();
+                        history.UPD_TYPE = 2; //xóa
+                        history.UPD_TIME = DateTime.Now;
+                        history.UPD_USER = AccountHelper.Account.ACCOUNT;
+                        history.MACHINE_NAME = System.Environment.MachineName;
+                        
+                        history.DESCRIBE = $"Xóa model {dataExisted.MODEL}";
+                        history.DATA_ID = dataExisted.ID;
+                        history.MODEL = dataExisted.MODEL;
+                        history.CELL = dataExisted.CELL;
+                        history.DEST = dataExisted.DEST;
+                        history.START_CODE = dataExisted.START_CODE;
+                        history.CHAR_NUMBER = dataExisted.CHAR_NUMBER;
+                        history.PRINT_TYPE = dataExisted.PRINT_TYPE;
+                        history.PRINT_PATH = dataExisted.PRINT_PATH;
+                        history.DATABASE_PATH = dataExisted.DATABASE_PATH;
+                        db.HISTORY_MODIFIED_DATA_MASTER.Add(history);
+                        db.SaveChanges();
+
+                        trans.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        trans.Rollback();
+                        return false;
+                    }                  
+                }                 
+            }   
+        }
+
         internal List<string> GetAllDest()
         {
             using (var db = new DBContext())
@@ -72,6 +133,14 @@ namespace PrintLabel.SQLHelper
             using (var db = new DBContext())
             {
                 return db.MASTER_DATA.Select(s => s.MODEL).Distinct().ToList();
+            }
+        }
+
+        internal List<string> GetAllModel(int printType)
+        {
+            using (var db = new DBContext())
+            {
+                return db.MASTER_DATA.Where(w=>w.PRINT_TYPE == printType).Select(s => s.MODEL).Distinct().ToList();
             }
         }
 
@@ -256,6 +325,43 @@ namespace PrintLabel.SQLHelper
             }
         }
 
+        internal bool InsertNewModel(string model, string printType, string cell, string dest, string number, string startCode, string bar, string database)
+        {
+            try
+            {
+                using (var db = new DBContext())
+                {
+                    //check tồn tại model
+                    var print = GetPrintType(printType);
+                    var existed = db.MASTER_DATA.Where(w=>w.MODEL == model && w.CELL == cell && w.DEST == dest && w.PRINT_TYPE == print).FirstOrDefault();
+                    if (existed != null)
+                    {
+                        MessageBox.Show("Đã tồn tại model này rồi!");
+                        return false;
+                    }
+                    MASTER_DATA data = new MASTER_DATA();
+                    data.ID = Guid.NewGuid();
+                    data.MODEL = model;
+                    data.CELL = cell;
+                    data.DEST = dest;
+                    data.PRINT_TYPE = print;
+                    data.CHAR_NUMBER = Common.Common.ConvertDefaultINT(number);
+                    data.START_CODE = startCode;
+                    data.UPD_TIME = DateTime.Now;
+                    data.PRINT_PATH = bar;
+                    data.DATABASE_PATH = database;
+                    data.USER_UPDATE = AccountHelper.Account.ACCOUNT;
+                    db.MASTER_DATA.Add(data);
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         internal bool SaveAndUpdateLog(MASTER_DATA data, long printNumber, List<string> barcodeList, string account)
         {
             using (var db = new DBContext())
@@ -366,6 +472,98 @@ namespace PrintLabel.SQLHelper
                         return false;
                     }
                 }
+            }
+        }
+
+        internal bool UpdateModel(string model, string printType, string cell, string dest, string bartender, string database, string startCode)
+        {
+            using (var db = new DBContext())
+            {
+                using (var trans = db.Database.BeginTransaction())
+                {
+                    try
+                    {      
+                        var print = GetPrintType(printType);
+                        var existed = db.MASTER_DATA.Where(w => w.MODEL == model && w.CELL == cell && w.DEST == dest && w.PRINT_TYPE == print).FirstOrDefault();
+                        
+                        var old_StartCode = existed.START_CODE ?? "";
+                        var old_Bartender = existed.PRINT_PATH ?? "";
+                        var old_Database = existed.DATABASE_PATH ?? "";   
+                        if(old_StartCode == startCode && old_Bartender == bartender && old_Database == database)
+                        {
+                            MessageBox.Show("Bạn chưa thay đổi gì ?");
+                            return false;
+                        }
+                        if(existed == null)
+                        {
+                            MessageBox.Show("Không tim thấy model này, vui lòng kiểm tra lại!");
+                            return false;
+                        }    
+                        if (existed != null)
+                        {
+                            existed.START_CODE = startCode;
+                            existed.PRINT_PATH = bartender;
+                            existed.DATABASE_PATH = database;
+                            existed.UPD_TIME = DateTime.Now;
+                            existed.USER_UPDATE = AccountHelper.Account.ACCOUNT;
+                            db.Entry(existed).State = EntityState.Modified;
+                            db.SaveChanges();                           
+                        }
+
+                        HISTORY_MODIFIED_DATA_MASTER history = new HISTORY_MODIFIED_DATA_MASTER();
+                        history.UPD_TYPE = 1; //sửa
+                        history.UPD_TIME = DateTime.Now;
+                        history.UPD_USER =AccountHelper.Account.ACCOUNT;
+                        history.MACHINE_NAME = System.Environment.MachineName;
+                        var des = $"({old_StartCode} -> {startCode})";
+
+                        if (string.IsNullOrEmpty(old_Bartender) && old_Bartender != bartender)
+                        {
+                            des += $"(Thêm mới {bartender})";
+                        }
+                                            
+                        else
+                        {
+                            if (old_Bartender != bartender)
+                            {
+                                des += $"({old_Bartender} -> {bartender})";
+                            }
+                        }
+                        if (string.IsNullOrEmpty(old_Database) && old_Database != database)
+                        {
+                            des += $"(Thêm mới {database})";
+                        }
+                   
+                        else
+                        {
+                            if (old_Database != database)
+                            {
+                                des += $"({old_Database} -> {database})";
+                            }
+                        }
+                        history.DESCRIBE = des;
+                        history.DATA_ID =existed.ID;
+                        history.MODEL= existed.MODEL;
+                        history.CELL = existed.CELL;
+                        history.DEST = existed.DEST;
+                        history.START_CODE = existed.START_CODE;
+                        history.CHAR_NUMBER = existed.CHAR_NUMBER;
+                        history.PRINT_TYPE = existed.PRINT_TYPE;
+                        history.PRINT_PATH = old_Bartender;
+                        history.DATABASE_PATH = old_Database;
+                        db.HISTORY_MODIFIED_DATA_MASTER.Add(history);
+                        db.SaveChanges();
+
+                        trans.Commit();
+                        return true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        return false;
+                    }   
+                } 
             }
         }
 

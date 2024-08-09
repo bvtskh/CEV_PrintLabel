@@ -13,6 +13,7 @@ namespace PrintLabel.Models
         }
 
         public virtual DbSet<HISTORY_CONFIG_FILE_PATH> HISTORY_CONFIG_FILE_PATH { get; set; }
+        public virtual DbSet<HISTORY_MODIFIED_DATA_MASTER> HISTORY_MODIFIED_DATA_MASTER { get; set; }
         public virtual DbSet<MASTER_DATA> MASTER_DATA { get; set; }
         public virtual DbSet<PRINT_DATA_LOG> PRINT_DATA_LOG { get; set; }
         public virtual DbSet<PRINT_TYPE> PRINT_TYPE { get; set; }
@@ -25,6 +26,10 @@ namespace PrintLabel.Models
             modelBuilder.Entity<HISTORY_CONFIG_FILE_PATH>()
                 .Property(e => e.DEST)
                 .IsFixedLength();
+
+            modelBuilder.Entity<HISTORY_MODIFIED_DATA_MASTER>()
+                .Property(e => e.START_CODE)
+                .IsUnicode(false);
 
             modelBuilder.Entity<MASTER_DATA>()
                 .Property(e => e.MODEL)

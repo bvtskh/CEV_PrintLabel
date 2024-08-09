@@ -1,4 +1,5 @@
 ﻿using PrintLabel.SQLHelper;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PrintLabel.Common.CONSTANT;
 
 namespace PrintLabel
 {
@@ -34,7 +36,7 @@ namespace PrintLabel
 
         private void FormDatabase_Load(object sender, EventArgs e)
         {
-            if(AccountHelper.Account.TYPE == 3)
+            if(!AccountHelper.IsAdmin())           
             {
                 btnAdd.Enabled = false;
                 context.Enabled = false;
@@ -55,12 +57,50 @@ namespace PrintLabel
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            new FormInsertModel().ShowDialog();
+            new FormInsertModel(ModelSetting.Insert).ShowDialog();
+            btnSearch_Click(null, null);
         }
 
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             btnSearch_Click(null,null);
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectRow != null)
+            {
+                new FormInsertModel(ModelSetting.Update,selectRow).ShowDialog();
+                btnSearch_Click(null, null);
+            }
+        }
+
+        DataGridViewRow selectRow;
+        private void dgvDatabase_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex>=0 && e.ColumnIndex>=0)
+            {
+                selectRow = dgvDatabase.Rows[e.RowIndex];
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(selectRow != null)
+            {
+                if(MessageBox.Show("Bạn có chắc muốn xóa model này?","Thông báo",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    if (printHelper.DeleteModel(selectRow))
+                    {
+                        UIMessageTip.ShowError("Đã xóa thành công!");
+                    }
+                    else
+                    {
+                        UIMessageTip.ShowError("Không thành công!");
+                    }
+                    btnSearch_Click(null, null);
+                }
+            }
         }
     }
 }

@@ -59,8 +59,8 @@ namespace PrintLabel
                 this.BeginInvoke(new Action(() =>
                 {
                     var index = Common.Common.ConvertDefaultINT(txtNumberLastPrint.Text);
-
-                    var sum = index + Common.Common.ConvertDefaultINT(txtPrintNumbers.Text);
+                    var printNumber = Common.Common.ConvertDefaultINT(txtPrintNumbers.Text);
+                    var sum = index + printNumber - 1;
                     if (selectRow != null)
                     {
                         var des = selectRow.Cells[0].Value?.ToString();
@@ -69,6 +69,10 @@ namespace PrintLabel
                         {
                             var end = sum.ToString().PadLeft((int)data.CHAR_NUMBER - data.START_CODE.Length, '0');
                             txtEndBodyNo.Text = txtStartBodyNo.Text + end;
+                            if(printNumber <= 0)
+                            {
+                                txtEndBodyNo.Text = "";
+                            }
                         }
                     }
                 }));
@@ -86,7 +90,7 @@ namespace PrintLabel
             Timer1.Start();
             try
             {
-                var modelList = PrintHelper.GetAllModel();
+                var modelList = PrintHelper.GetAllModel(printType);
                 cbbModel.Items.AddRange(modelList.ToArray());
                 //ExcelHelper.InsertDataSheet3();
                 //ExcelHelper.InsertDataSheet2();
@@ -113,16 +117,17 @@ namespace PrintLabel
 
         private void PrintLabel()
         {
-            if (string.IsNullOrEmpty(txtPrintNumbers.Text) || txtPrintNumbers.Text == "0")
+            var printNumber = Common.Common.ConvertDefaultINT(txtPrintNumbers.Text);
+            if (string.IsNullOrEmpty(txtPrintNumbers.Text) || printNumber <= 0)
             {
-                UIMessageTip.ShowError("Nhập số lượng in!", 2000);
+                UIMessageTip.ShowError("Số lượng in không đúng!", 2000);
                 return;
             }
             FileStream FILEDATA = new FileStream(data.DATABASE_PATH, FileMode.Create);
             TextWriter writer = new StreamWriter(FILEDATA);
 
             List<string> barcodeList = new List<string>();
-            for (int i = 1; i <= Int64.Parse(txtPrintNumbers.Text); i++)
+            for (int i = 0; i < Int64.Parse(txtPrintNumbers.Text); i++)
             {
                 long index = Common.Common.ConvertDefaultINT(txtNumberLastPrint.Text);
 
@@ -229,7 +234,7 @@ namespace PrintLabel
             if (data != null)
             {
                 txtStartBodyNo.Text = data.START_CODE;
-                txtNumberLastPrint.Text = (PrintHelper.GetPrintUpdateData(data.ID)?.ToString()).PadLeft((int)data.CHAR_NUMBER - data.START_CODE.Length, '0');//Total Printed
+                txtNumberLastPrint.Text = ((PrintHelper.GetPrintUpdateData(data.ID) +1)?.ToString()).PadLeft((int)data.CHAR_NUMBER - data.START_CODE.Length, '0');//Total Printed
                 lbCharNumber.Text = $"Char number: {data.CHAR_NUMBER}";
 
                 txtPathFile.Text = data.PRINT_PATH;
@@ -285,6 +290,23 @@ namespace PrintLabel
                 f.StartPosition = FormStartPosition.CenterParent;
                 f.ShowDialog();
             }
+        }
+
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            var printNumber = Common.Common.ConvertDefaultINT(txtPrintNumbers.Text);
+            for (int i = 0; i < Int64.Parse(txtPrintNumbers.Text); i++)
+            {
+                long index = Common.Common.ConvertDefaultINT(txtNumberLastPrint.Text);
+
+                var end = (index + i).ToString().PadLeft((int)data.CHAR_NUMBER - data.START_CODE.Length, '0');
+                string barcode = txtStartBodyNo.Text + end;
+            }
+        }
+
+        private void btnFixbartender_Click(object sender, EventArgs e)
+        {
+            new FormConfirm().ShowDialog();
         }
     }
 }

@@ -40,6 +40,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.uiSymbolLabel1 = new Sunny.UI.UISymbolLabel();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatabase)).BeginInit();
             this.context.SuspendLayout();
@@ -141,19 +142,22 @@
             this.dgvDatabase.RowHeadersVisible = false;
             this.dgvDatabase.Size = new System.Drawing.Size(1143, 641);
             this.dgvDatabase.TabIndex = 1;
+            this.dgvDatabase.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDatabase_CellClick);
             // 
             // context
             // 
             this.context.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.deleteToolStripMenuItem});
             this.context.Name = "context";
-            this.context.Size = new System.Drawing.Size(95, 26);
+            this.context.Size = new System.Drawing.Size(181, 70);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editToolStripMenuItem.Text = "Update";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // panel2
             // 
@@ -180,6 +184,13 @@
             this.uiSymbolLabel1.SymbolSize = 30;
             this.uiSymbolLabel1.TabIndex = 0;
             this.uiSymbolLabel1.Text = "DATABASE";
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // FormDatabase
             // 
@@ -213,5 +224,6 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.Panel panel2;
         private Sunny.UI.UISymbolLabel uiSymbolLabel1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
     }
 }

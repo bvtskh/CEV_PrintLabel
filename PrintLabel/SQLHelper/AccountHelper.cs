@@ -20,9 +20,29 @@ namespace PrintLabel.SQLHelper
             }
         }
 
+        internal static bool IsAdmin()
+        {
+            return Account.TYPE == 1;
+        }
+
+        internal static bool IsAdmin(string account, string password)
+        {
+            using (var db = new DBContext())
+            {
+                var type = db.USER.Where(w => w.ACCOUNT == account && w.PASSWORD == password).Select(s=>s.TYPE).FirstOrDefault();
+                if (type == null) return false;
+                return type == 1;
+            }
+        }
+
         internal static bool IsReadonly(USER account)
         {
             return account.TYPE == 3;
+        }
+
+        internal static bool IsStaff(USER account)
+        {
+            return account.TYPE == 2;
         }
     }
 }

@@ -47,7 +47,7 @@
             this.btnOpenBar = new Sunny.UI.UISymbolButton();
             this.btnOpenDb = new Sunny.UI.UISymbolButton();
             this.btnSave = new Sunny.UI.UISymbolButton();
-            this.uiMarkLabel1 = new Sunny.UI.UIMarkLabel();
+            this.lbTitle = new Sunny.UI.UIMarkLabel();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -167,7 +167,9 @@
             this.txtNumber.ShowText = false;
             this.txtNumber.Size = new System.Drawing.Size(164, 29);
             this.txtNumber.TabIndex = 1;
+            this.txtNumber.Text = "0";
             this.txtNumber.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtNumber.Type = Sunny.UI.UITextBox.UIEditType.Integer;
             this.txtNumber.Watermark = "";
             // 
             // label6
@@ -313,7 +315,7 @@
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(10)))), ((int)(((byte)(55)))));
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.btnSave.Location = new System.Drawing.Point(257, 380);
+            this.btnSave.Location = new System.Drawing.Point(257, 388);
             this.btnSave.MinimumSize = new System.Drawing.Size(1, 1);
             this.btnSave.Name = "btnSave";
             this.btnSave.RectColor = System.Drawing.Color.Transparent;
@@ -324,19 +326,18 @@
             this.btnSave.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // uiMarkLabel1
+            // lbTitle
             // 
-            this.uiMarkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uiMarkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiMarkLabel1.ForeColor = System.Drawing.Color.Red;
-            this.uiMarkLabel1.Location = new System.Drawing.Point(-2, 9);
-            this.uiMarkLabel1.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
-            this.uiMarkLabel1.Name = "uiMarkLabel1";
-            this.uiMarkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.uiMarkLabel1.Size = new System.Drawing.Size(385, 41);
-            this.uiMarkLabel1.TabIndex = 5;
-            this.uiMarkLabel1.Text = "Thêm mới";
+            this.lbTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTitle.ForeColor = System.Drawing.Color.Red;
+            this.lbTitle.Location = new System.Drawing.Point(0, 0);
+            this.lbTitle.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
+            this.lbTitle.Name = "lbTitle";
+            this.lbTitle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.lbTitle.Size = new System.Drawing.Size(383, 41);
+            this.lbTitle.TabIndex = 5;
+            this.lbTitle.Text = "Thêm mới";
             // 
             // label9
             // 
@@ -417,7 +418,7 @@
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btnOpenBar);
-            this.Controls.Add(this.uiMarkLabel1);
+            this.Controls.Add(this.lbTitle);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnOpenDb);
             this.Controls.Add(this.cbbPrintType);
@@ -440,6 +441,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormInsertModel";
             this.Load += new System.EventHandler(this.FormInsertModel_Load);
+            this.Shown += new System.EventHandler(this.FormInsertModel_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -466,7 +468,7 @@
         private Sunny.UI.UISymbolButton btnOpenBar;
         private Sunny.UI.UISymbolButton btnOpenDb;
         private Sunny.UI.UISymbolButton btnSave;
-        private Sunny.UI.UIMarkLabel uiMarkLabel1;
+        private Sunny.UI.UIMarkLabel lbTitle;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;

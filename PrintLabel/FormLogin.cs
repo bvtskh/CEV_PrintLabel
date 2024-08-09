@@ -56,5 +56,10 @@ namespace PrintLabel
                 btnLogin_Click(null, null);
             }
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

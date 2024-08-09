@@ -50,9 +50,11 @@
             this.uiSymbolLabel3 = new Sunny.UI.UISymbolLabel();
             this.uiMarkLabel1 = new Sunny.UI.UIMarkLabel();
             this.btnPrintBody = new Sunny.UI.UISymbolButton();
-            this.uiSymbolButton3 = new Sunny.UI.UISymbolButton();
-            this.uiSymbolButton2 = new Sunny.UI.UISymbolButton();
+            this.btnPrintOuterBox = new Sunny.UI.UISymbolButton();
+            this.btnPrintRating = new Sunny.UI.UISymbolButton();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.cbException = new Sunny.UI.UIRadioButton();
+            this.cbNormal = new Sunny.UI.UIRadioButton();
             this.uiSymbolLabel2 = new Sunny.UI.UISymbolLabel();
             this.uiSymbolLabel1 = new Sunny.UI.UISymbolLabel();
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
@@ -62,15 +64,14 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.panelChart = new System.Windows.Forms.Panel();
             this.process1 = new Sunny.UI.UIProgressIndicator();
-            this.graphColumns = new ZedGraph.ZedGraphControl();
+            this.graphColumns = new LiveCharts.WinForms.CartesianChart();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panelCirle = new System.Windows.Forms.Panel();
             this.process2 = new Sunny.UI.UIProgressIndicator();
             this.graphCircle = new ZedGraph.ZedGraphControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cbNormal = new Sunny.UI.UIRadioButton();
-            this.cbException = new Sunny.UI.UIRadioButton();
+            this.splitter3 = new System.Windows.Forms.Splitter();
             this.uiPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -110,10 +111,10 @@
             this.lbUser.Dock = System.Windows.Forms.DockStyle.Right;
             this.lbUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.lbUser.ForeColor = System.Drawing.Color.White;
-            this.lbUser.Location = new System.Drawing.Point(1009, 0);
+            this.lbUser.Location = new System.Drawing.Point(951, 0);
             this.lbUser.MinimumSize = new System.Drawing.Size(1, 1);
             this.lbUser.Name = "lbUser";
-            this.lbUser.Size = new System.Drawing.Size(158, 53);
+            this.lbUser.Size = new System.Drawing.Size(216, 53);
             this.lbUser.Symbol = 62142;
             this.lbUser.SymbolColor = System.Drawing.Color.White;
             this.lbUser.SymbolSize = 29;
@@ -162,6 +163,9 @@
             this.dgvReport.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(246)))), ((int)(((byte)(248)))));
             this.dgvReport.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvReport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvReport.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
@@ -180,12 +184,11 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvReport.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvReport.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvReport.EnableHeadersVisualStyles = false;
-            this.dgvReport.Location = new System.Drawing.Point(0, 0);
+            this.dgvReport.Location = new System.Drawing.Point(5, 6);
             this.dgvReport.Name = "dgvReport";
             this.dgvReport.RowHeadersVisible = false;
-            this.dgvReport.Size = new System.Drawing.Size(776, 238);
+            this.dgvReport.Size = new System.Drawing.Size(766, 229);
             this.dgvReport.TabIndex = 0;
             // 
             // splitter2
@@ -204,6 +207,7 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.panel10);
             this.panel2.Controls.Add(this.panel9);
+            this.panel2.Controls.Add(this.splitter3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(776, 44);
             this.panel2.Name = "panel2";
@@ -220,13 +224,13 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel10.Location = new System.Drawing.Point(206, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(181, 239);
+            this.panel10.Size = new System.Drawing.Size(181, 238);
             this.panel10.TabIndex = 4;
             // 
             // uiSymbolLabel4
             // 
             this.uiSymbolLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uiSymbolLabel4.Location = new System.Drawing.Point(22, 3);
+            this.uiSymbolLabel4.Location = new System.Drawing.Point(22, 8);
             this.uiSymbolLabel4.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiSymbolLabel4.Name = "uiSymbolLabel4";
             this.uiSymbolLabel4.Size = new System.Drawing.Size(130, 29);
@@ -290,18 +294,18 @@
             this.panel9.Controls.Add(this.uiSymbolLabel3);
             this.panel9.Controls.Add(this.uiMarkLabel1);
             this.panel9.Controls.Add(this.btnPrintBody);
-            this.panel9.Controls.Add(this.uiSymbolButton3);
-            this.panel9.Controls.Add(this.uiSymbolButton2);
+            this.panel9.Controls.Add(this.btnPrintOuterBox);
+            this.panel9.Controls.Add(this.btnPrintRating);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(206, 239);
+            this.panel9.Size = new System.Drawing.Size(206, 238);
             this.panel9.TabIndex = 3;
             // 
             // uiSymbolLabel3
             // 
             this.uiSymbolLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uiSymbolLabel3.Location = new System.Drawing.Point(22, 3);
+            this.uiSymbolLabel3.Location = new System.Drawing.Point(22, 7);
             this.uiSymbolLabel3.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiSymbolLabel3.Name = "uiSymbolLabel3";
             this.uiSymbolLabel3.Size = new System.Drawing.Size(130, 29);
@@ -342,41 +346,43 @@
             this.btnPrintBody.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.btnPrintBody.Click += new System.EventHandler(this.btnPrintBody_Click);
             // 
-            // uiSymbolButton3
+            // btnPrintOuterBox
             // 
-            this.uiSymbolButton3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiSymbolButton3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(80)))), ((int)(((byte)(255)))));
-            this.uiSymbolButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uiSymbolButton3.Location = new System.Drawing.Point(39, 153);
-            this.uiSymbolButton3.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiSymbolButton3.Name = "uiSymbolButton3";
-            this.uiSymbolButton3.RectColor = System.Drawing.Color.Transparent;
-            this.uiSymbolButton3.Size = new System.Drawing.Size(130, 35);
-            this.uiSymbolButton3.Symbol = 61481;
-            this.uiSymbolButton3.SymbolOffset = new System.Drawing.Point(5, 0);
-            this.uiSymbolButton3.TabIndex = 1;
-            this.uiSymbolButton3.Text = "Outer box";
-            this.uiSymbolButton3.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnPrintOuterBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPrintOuterBox.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(80)))), ((int)(((byte)(255)))));
+            this.btnPrintOuterBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnPrintOuterBox.Location = new System.Drawing.Point(39, 153);
+            this.btnPrintOuterBox.MinimumSize = new System.Drawing.Size(1, 1);
+            this.btnPrintOuterBox.Name = "btnPrintOuterBox";
+            this.btnPrintOuterBox.RectColor = System.Drawing.Color.Transparent;
+            this.btnPrintOuterBox.Size = new System.Drawing.Size(130, 35);
+            this.btnPrintOuterBox.Symbol = 61481;
+            this.btnPrintOuterBox.SymbolOffset = new System.Drawing.Point(5, 0);
+            this.btnPrintOuterBox.TabIndex = 1;
+            this.btnPrintOuterBox.Text = "Outer box";
+            this.btnPrintOuterBox.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnPrintOuterBox.Click += new System.EventHandler(this.btnPrintOuterBox_Click);
             // 
-            // uiSymbolButton2
+            // btnPrintRating
             // 
-            this.uiSymbolButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uiSymbolButton2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(160)))), ((int)(((byte)(25)))));
-            this.uiSymbolButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uiSymbolButton2.Location = new System.Drawing.Point(39, 106);
-            this.uiSymbolButton2.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiSymbolButton2.Name = "uiSymbolButton2";
-            this.uiSymbolButton2.RectColor = System.Drawing.Color.Transparent;
-            this.uiSymbolButton2.Size = new System.Drawing.Size(130, 35);
-            this.uiSymbolButton2.Symbol = 61481;
-            this.uiSymbolButton2.SymbolOffset = new System.Drawing.Point(-5, 0);
-            this.uiSymbolButton2.TabIndex = 1;
-            this.uiSymbolButton2.Text = "Rating";
-            this.uiSymbolButton2.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnPrintRating.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPrintRating.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(160)))), ((int)(((byte)(25)))));
+            this.btnPrintRating.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnPrintRating.Location = new System.Drawing.Point(39, 106);
+            this.btnPrintRating.MinimumSize = new System.Drawing.Size(1, 1);
+            this.btnPrintRating.Name = "btnPrintRating";
+            this.btnPrintRating.RectColor = System.Drawing.Color.Transparent;
+            this.btnPrintRating.Size = new System.Drawing.Size(130, 35);
+            this.btnPrintRating.Symbol = 61481;
+            this.btnPrintRating.SymbolOffset = new System.Drawing.Point(-5, 0);
+            this.btnPrintRating.TabIndex = 1;
+            this.btnPrintRating.Text = "Rating";
+            this.btnPrintRating.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnPrintRating.Click += new System.EventHandler(this.btnPrintRating_Click);
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.Ivory;
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
             this.panel3.Controls.Add(this.cbException);
             this.panel3.Controls.Add(this.cbNormal);
             this.panel3.Controls.Add(this.uiSymbolLabel2);
@@ -389,10 +395,37 @@
             this.panel3.Size = new System.Drawing.Size(1165, 44);
             this.panel3.TabIndex = 1;
             // 
+            // cbException
+            // 
+            this.cbException.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbException.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.cbException.Location = new System.Drawing.Point(231, 13);
+            this.cbException.MinimumSize = new System.Drawing.Size(1, 1);
+            this.cbException.Name = "cbException";
+            this.cbException.RadioButtonColor = System.Drawing.Color.Red;
+            this.cbException.Size = new System.Drawing.Size(98, 22);
+            this.cbException.TabIndex = 4;
+            this.cbException.Text = "Exception";
+            this.cbException.ValueChanged += new Sunny.UI.UIRadioButton.OnValueChanged(this.cbNormal_ValueChanged);
+            // 
+            // cbNormal
+            // 
+            this.cbNormal.Checked = true;
+            this.cbNormal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cbNormal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.cbNormal.Location = new System.Drawing.Point(143, 13);
+            this.cbNormal.MinimumSize = new System.Drawing.Size(1, 1);
+            this.cbNormal.Name = "cbNormal";
+            this.cbNormal.RadioButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.cbNormal.Size = new System.Drawing.Size(78, 22);
+            this.cbNormal.TabIndex = 4;
+            this.cbNormal.Text = "Normal";
+            this.cbNormal.ValueChanged += new Sunny.UI.UIRadioButton.OnValueChanged(this.cbNormal_ValueChanged);
+            // 
             // uiSymbolLabel2
             // 
             this.uiSymbolLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uiSymbolLabel2.Location = new System.Drawing.Point(465, 10);
+            this.uiSymbolLabel2.Location = new System.Drawing.Point(465, 12);
             this.uiSymbolLabel2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiSymbolLabel2.Name = "uiSymbolLabel2";
             this.uiSymbolLabel2.Size = new System.Drawing.Size(40, 23);
@@ -419,7 +452,7 @@
             // 
             this.dtpTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(511, 10);
+            this.dtpTo.Location = new System.Drawing.Point(511, 12);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(119, 24);
             this.dtpTo.TabIndex = 2;
@@ -429,7 +462,7 @@
             // 
             this.dtpFrom.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFrom.Location = new System.Drawing.Point(340, 10);
+            this.dtpFrom.Location = new System.Drawing.Point(340, 12);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(119, 24);
             this.dtpFrom.TabIndex = 2;
@@ -469,6 +502,7 @@
             // 
             this.panelChart.BackColor = System.Drawing.Color.White;
             this.panelChart.Controls.Add(this.process1);
+            this.panelChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelChart.Location = new System.Drawing.Point(0, 0);
             this.panelChart.Name = "panelChart";
             this.panelChart.Size = new System.Drawing.Size(775, 359);
@@ -492,16 +526,9 @@
             this.graphColumns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.graphColumns.Location = new System.Drawing.Point(0, 0);
             this.graphColumns.Name = "graphColumns";
-            this.graphColumns.ScrollGrace = 0D;
-            this.graphColumns.ScrollMaxX = 0D;
-            this.graphColumns.ScrollMaxY = 0D;
-            this.graphColumns.ScrollMaxY2 = 0D;
-            this.graphColumns.ScrollMinX = 0D;
-            this.graphColumns.ScrollMinY = 0D;
-            this.graphColumns.ScrollMinY2 = 0D;
             this.graphColumns.Size = new System.Drawing.Size(775, 359);
             this.graphColumns.TabIndex = 0;
-            this.graphColumns.UseExtendedPrintDialog = true;
+            this.graphColumns.Text = "cartesianChart1";
             // 
             // splitter1
             // 
@@ -562,32 +589,15 @@
             this.graphCircle.TabIndex = 2;
             this.graphCircle.UseExtendedPrintDialog = true;
             // 
-            // cbNormal
+            // splitter3
             // 
-            this.cbNormal.Checked = true;
-            this.cbNormal.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbNormal.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.cbNormal.Location = new System.Drawing.Point(143, 11);
-            this.cbNormal.MinimumSize = new System.Drawing.Size(1, 1);
-            this.cbNormal.Name = "cbNormal";
-            this.cbNormal.RadioButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.cbNormal.Size = new System.Drawing.Size(78, 22);
-            this.cbNormal.TabIndex = 4;
-            this.cbNormal.Text = "Normal";
-            this.cbNormal.ValueChanged += new Sunny.UI.UIRadioButton.OnValueChanged(this.cbNormal_ValueChanged);
-            // 
-            // cbException
-            // 
-            this.cbException.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cbException.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.cbException.Location = new System.Drawing.Point(231, 11);
-            this.cbException.MinimumSize = new System.Drawing.Size(1, 1);
-            this.cbException.Name = "cbException";
-            this.cbException.RadioButtonColor = System.Drawing.Color.Red;
-            this.cbException.Size = new System.Drawing.Size(98, 22);
-            this.cbException.TabIndex = 4;
-            this.cbException.Text = "Exception";
-            this.cbException.ValueChanged += new Sunny.UI.UIRadioButton.OnValueChanged(this.cbNormal_ValueChanged);
+            this.splitter3.BackColor = System.Drawing.Color.Black;
+            this.splitter3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.splitter3.Location = new System.Drawing.Point(0, 238);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(387, 1);
+            this.splitter3.TabIndex = 5;
+            this.splitter3.TabStop = false;
             // 
             // FormMain
             // 
@@ -612,7 +622,6 @@
             this.panel10.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
@@ -633,8 +642,8 @@
         private System.Windows.Forms.DateTimePicker dtpTo;
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private Sunny.UI.UISymbolLabel uiSymbolLabel3;
-        private Sunny.UI.UISymbolButton uiSymbolButton3;
-        private Sunny.UI.UISymbolButton uiSymbolButton2;
+        private Sunny.UI.UISymbolButton btnPrintOuterBox;
+        private Sunny.UI.UISymbolButton btnPrintRating;
         private Sunny.UI.UISymbolButton btnPrintBody;
         private Sunny.UI.UIMarkLabel uiMarkLabel1;
         private Sunny.UI.UISymbolButton btnConfig;
@@ -647,7 +656,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel7;
         private ZedGraph.ZedGraphControl graphCircle;
-        private ZedGraph.ZedGraphControl graphColumns;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Splitter splitter1;
@@ -663,5 +671,7 @@
         private Sunny.UI.UISymbolButton btnDatabase;
         private Sunny.UI.UIRadioButton cbException;
         private Sunny.UI.UIRadioButton cbNormal;
+        private LiveCharts.WinForms.CartesianChart graphColumns;
+        private System.Windows.Forms.Splitter splitter3;
     }
 }

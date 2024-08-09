@@ -100,6 +100,12 @@
     <Compile Include="FormConfigPath.Designer.cs">
       <DependentUpon>FormConfigPath.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormConfirm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormConfirm.Designer.cs">
+      <DependentUpon>FormConfirm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,7 @@
     <Compile Include="Graph\GroupChart.cs" />
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\HISTORY_CONFIG_FILE_PATH.cs" />
+    <Compile Include="Models\HISTORY_MODIFIED_DATA_MASTER.cs" />
     <Compile Include="Models\MASTER_DATA.cs" />
     <Compile Include="Models\PRINTED_UPDATE.cs" />
     <Compile Include="Models\PRINT_DATA_LOG.cs" />
@@ -188,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormConfigPath.resx">
       <DependentUpon>FormConfigPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormConfirm.resx">
+      <DependentUpon>FormConfirm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDatabase.resx">
       <DependentUpon>FormDatabase.cs</DependentUpon>
