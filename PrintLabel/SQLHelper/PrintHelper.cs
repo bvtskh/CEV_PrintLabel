@@ -20,7 +20,7 @@ namespace PrintLabel.SQLHelper
 {
     public class PrintHelper
     {
-        internal static bool SaveRePrintDataLog(MASTER_DATA data, List<string> barcodeList, string account, string reason)
+        internal static bool SaveRePrintDataLog(MASTER_DATA data, List<string> barcodeList, string account, string reason, string checker)
         {
             try
             {
@@ -38,6 +38,7 @@ namespace PrintLabel.SQLHelper
                         reprint.MACHINE_NAME = System.Environment.MachineName;
                         reprint.BASE_REQUEST = GetReprintBaseRequest();
                         reprint.REASON = reason;
+                        reprint.CHECKER = checker;
                         reprints.Add(reprint);
                     }
                     db.RE_PRINT_DATA_LOG.AddRange(reprints);
@@ -362,7 +363,7 @@ namespace PrintLabel.SQLHelper
             }
         }
 
-        internal bool SaveAndUpdateLog(MASTER_DATA data, long printNumber, List<string> barcodeList, string account)
+        internal bool SaveAndUpdateLog(MASTER_DATA data, long printNumber, List<string> barcodeList, string account, string checker ="", string partNumber ="")
         {
             using (var db = new DBContext())
             {
@@ -390,8 +391,9 @@ namespace PrintLabel.SQLHelper
                             pRINT_DATA_LOG.UPD_TIME = DateTime.Now;
                             pRINT_DATA_LOG.PRINTER = account;
                             pRINT_DATA_LOG.MACHINE_NAME = System.Environment.MachineName;
-                            pRINT_DATA_LOG.IS_REPRINT = false;
                             pRINT_DATA_LOG.BASE_REQUEST = baseRq;
+                            pRINT_DATA_LOG.CHECKER =checker;
+                            pRINT_DATA_LOG.PART_NUMBER =partNumber;
                             db.PRINT_DATA_LOG.Add(pRINT_DATA_LOG);
                             db.SaveChanges();
                         }

@@ -29,5 +29,11 @@ namespace PrintLabel.Models
 
         [StringLength(300)]
         public string REASON { get; set; }
+
+        [StringLength(50)]
+        public string CHECKER { get; set; }
+
+        [StringLength(50)]
+        public string PART_NUMBER { get; set; }
     }
 }

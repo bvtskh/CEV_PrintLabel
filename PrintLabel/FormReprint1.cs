@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace PrintLabel
 {
-    public partial class FormReprint : Form
+    public partial class FormReprint1 : Form
     {
         MASTER_DATA data;
         string account;
@@ -24,7 +24,7 @@ namespace PrintLabel
 
         BackgroundWorker worker;
         Timer timer;
-        public FormReprint(Models.MASTER_DATA data, string account, int printType)
+        public FormReprint1(Models.MASTER_DATA data, string account, int printType)
         {
             InitializeComponent();
             this.data = data;
@@ -51,21 +51,54 @@ namespace PrintLabel
             try
             {
                 var total = Common.Common.ConvertDefaultINT(lbPrintedTotal.Text);
-                var from = Common.Common.ConvertDefaultINT(txtFrom.Text);
-                var to = Common.Common.ConvertDefaultINT(txtTo.Text);
+                var from = Common.Common.ConvertDefaultINT(txtEndNumber.Text);
+                var numberPrint = Common.Common.ConvertDefaultINT(txtNumberPrint.Text);
+
                 this.BeginInvoke(new Action(() =>
                 {
-                    if (from > total || to > total || from > to)
+                    if ((txtEndNumber.Text.Length != data.CHAR_NUMBER - data.START_CODE.Length) || from <= 0)
                     {
-                        txtStartBodyNo.Clear();
                         txtEndBodyNo.Clear();
+                        return;
                     }
+                    //if (from > total || (from + numberPrint) > total+1 || numberPrint <= 0 || from <= 0)
+                    //{
+                    //    txtEndBodyNo.Clear();
+                    //}
                     else
                     {
                         var start = data.START_CODE;
-                        txtStartBodyNo.Text = start + from.ToString().PadLeft((int)(data.CHAR_NUMBER - start.Length), '0');
-                        txtEndBodyNo.Text = start + to.ToString().PadLeft((int)(data.CHAR_NUMBER - start.Length), '0');
+                        var end = "";
+                        if(from <= total && from + numberPrint <= total+1)
+                        {
+                            end = (from + numberPrint -1).ToString().PadLeft((int)data.CHAR_NUMBER - start.Length, '0');
+
+                            if (numberPrint == 0)
+                            {
+                                end = "";
+                            }
+                        }
+                        //else
+                        //{
+                        //    end = total.ToString().PadLeft((int)data.CHAR_NUMBER - start.Length, '0');
+                        //}
+                        else
+                        {
+                            end = "";
+                        }
+                        txtEndBodyNo.Text = start + end;
                     }
+                    //if (from > total || to > total || from > to)
+                    //{
+                    //    txtStartBodyNo.Clear();
+                    //    txtEndBodyNo.Clear();
+                    //}
+                    //else
+                    //{
+                    //    var start = data.START_CODE;
+                    //    txtStartBodyNo.Text = start + from.ToString().PadLeft((int)(data.CHAR_NUMBER - start.Length), '0');
+                    //    txtEndBodyNo.Text = start + to.ToString().PadLeft((int)(data.CHAR_NUMBER - start.Length), '0');
+                    //}
                 }));
             }
             catch (Exception)
@@ -83,7 +116,7 @@ namespace PrintLabel
             lbPrintType.Text = printHelper.GetPrintType(printType);
             lbCharNumber.Text = data.CHAR_NUMBER?.ToString();
             lbPrintedTotal.Text = printHelper.GetPrintUpdateData(data.ID)?.ToString();
-
+            txtStartBodyNo.Text = data.START_CODE.ToString();
             timer.Start();
         }
 
@@ -117,8 +150,8 @@ namespace PrintLabel
                 return;
             }
             var reason = cbbReason.Text;
-            var from = Common.Common.ConvertDefaultINT(txtFrom.Text);
-            var to = Common.Common.ConvertDefaultINT(txtTo.Text);
+            var from = Common.Common.ConvertDefaultINT(txtEndNumber.Text);
+            var to = Common.Common.ConvertDefaultINT(txtNumberPrint.Text);
             if(from > to)
             {
                 UIMessageTip.ShowError("Nhập số lượng cần in lại!");
@@ -171,8 +204,85 @@ namespace PrintLabel
 
         private void FormReprint_Shown(object sender, EventArgs e)
         {
-            txtFrom.Focus();
-            txtFrom.SelectAll();
+            txtChecker.Focus();
+            txtChecker.SelectAll();
+        }
+
+        private void txtEndNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                txtNumberPrint.Focus();
+                txtNumberPrint.SelectAll();
+            }
+        }
+
+        private void txtNumberPrint_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+
+                var checker = txtChecker.Text;
+                var reason = cbbReason.Text;
+                var printNumer = Common.Common.ConvertDefaultINT(txtNumberPrint.Text);
+                var start = Common.Common.ConvertDefaultINT(txtEndNumber.Text);
+
+                if (lbPrintedTotal.Text == "0")
+                {
+                    UIMessageTip.ShowError("Model này chưa từng được in!");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(checker))
+                {
+                    UIMessageTip.ShowWarning("Nhập Checker!");
+                    txtChecker.Focus();
+                    txtChecker.SelectAll();
+                    return;
+                }
+                if (string.IsNullOrEmpty(reason))
+                {
+                    UIMessageTip.ShowWarning("Chọn lý do in lại!");
+                    cbbReason.Focus();
+                    cbbReason.SelectAll();
+                    return;
+                }
+                if (txtEndBodyNo.Text.Length != data.CHAR_NUMBER)
+                {
+                    UIMessageTip.ShowWarning("Label in lại chưa đúng!");
+                    return;
+                }
+                using (FormCheckReprint f = new FormCheckReprint(data, checker, reason, printNumer, start))
+                {
+                    f.ShowDialog();
+                }
+            }              
+        }
+
+        private void txtChecker_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                cbbReason.ShowDropDown();
+                cbbReason.Focus();
+                cbbReason.SelectAll();
+
+            }
+        }
+
+        private void cbbReason_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                txtEndNumber.Focus();
+                txtEndNumber.SelectAll();   
+            }
+        }
+
+        private void cbbReason_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtEndNumber.Focus();
+            txtEndNumber.SelectAll();
         }
     }
 }

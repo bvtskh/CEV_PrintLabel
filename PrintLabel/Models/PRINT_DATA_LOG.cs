@@ -25,8 +25,12 @@ namespace PrintLabel.Models
         [StringLength(50)]
         public string MACHINE_NAME { get; set; }
 
-        public bool? IS_REPRINT { get; set; }
-
         public int? BASE_REQUEST { get; set; }
+
+        [StringLength(50)]
+        public string CHECKER { get; set; }
+
+        [StringLength(50)]
+        public string PART_NUMBER { get; set; }
     }
 }

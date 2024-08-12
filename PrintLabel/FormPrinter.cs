@@ -108,6 +108,28 @@ namespace PrintLabel
         {
             if(e.KeyCode == Keys.Enter)
             {
+                var printNumber = Common.Common.ConvertDefaultINT(txtPrintNumbers.Text);
+
+                if (string.IsNullOrEmpty(txtChecker.Text))
+                {
+                    UIMessageTip.ShowError("Nhập checker!", 2000);
+                        txtChecker.Focus();
+                    return;
+                }
+                if (string.IsNullOrEmpty(txtPart.Text))
+                {
+                    UIMessageTip.ShowError("Nhập mã phôi!", 2000);
+                        txtPart.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(txtPrintNumbers.Text) || printNumber <= 0)
+                {
+                    UIMessageTip.ShowError("Số lượng in không đúng!", 2000);
+                        txtPrintNumbers.Focus();
+                        txtPrintNumbers.SelectAll();
+                    return;
+                }
                 using (FormLoading form = new FormLoading(PrintLabel))
                 {
                     form.ShowDialog(this);                   
@@ -117,12 +139,6 @@ namespace PrintLabel
 
         private void PrintLabel()
         {
-            var printNumber = Common.Common.ConvertDefaultINT(txtPrintNumbers.Text);
-            if (string.IsNullOrEmpty(txtPrintNumbers.Text) || printNumber <= 0)
-            {
-                UIMessageTip.ShowError("Số lượng in không đúng!", 2000);
-                return;
-            }
             FileStream FILEDATA = new FileStream(data.DATABASE_PATH, FileMode.Create);
             TextWriter writer = new StreamWriter(FILEDATA);
 
@@ -142,7 +158,7 @@ namespace PrintLabel
 
             // save log
 
-            if (PrintHelper.SaveAndUpdateLog(data, Common.Common.ConvertDefaultINT(txtPrintNumbers.Text), barcodeList, account))
+            if (PrintHelper.SaveAndUpdateLog(data, Common.Common.ConvertDefaultINT(txtPrintNumbers.Text), barcodeList, account,txtChecker.Text,txtPart.Text))
             {
                 var des = selectRow.Cells[0].Value?.ToString();
                 this.BeginInvoke(new Action(() =>
@@ -211,21 +227,23 @@ namespace PrintLabel
                 var des = dgvDes.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
                 if (des != null)
                 {
-                    using (FormModal modal = new FormModal())
-                    {
-                        modal.Show();
-                        using (FormCheck f = new FormCheck(des, printType, cbbModel.Text, cbbCell.Text))
-                        {
-                            f.StartPosition = FormStartPosition.CenterParent;
-                            f.ShowDialog(modal);
-                            if (f.SUCCESS)
-                            {
-                                ShowInfoPrint(des);
-                            }
-                        }
-                    }                                 
+                    ShowInfoPrint(des);
+                    //using (FormModal modal = new FormModal())
+                    //{
+                    //    modal.Show();
+                    //    using (FormCheck f = new FormCheck(des, printType, cbbModel.Text, cbbCell.Text))
+                    //    {
+                    //        f.StartPosition = FormStartPosition.CenterParent;
+                    //        f.ShowDialog(modal);
+                    //        if (f.SUCCESS)
+                    //        {
+                    //            ShowInfoPrint(des);
+                    //        }
+                    //    }
+                    //}                                 
                 }
             }
+
         }
 
         private void ShowInfoPrint(string des)
@@ -244,8 +262,8 @@ namespace PrintLabel
                     {
                         item.Enabled = true;
                         lbAlarm.Text = "";
-                        txtPrintNumbers.Focus();
-                        txtPrintNumbers.SelectAll();
+                        txtChecker.Focus();
+                        txtChecker.SelectAll();
                     }
                 }
                 else
@@ -259,9 +277,14 @@ namespace PrintLabel
             }
         }
 
-        private void txtPrintNumbers_Click(object sender, EventArgs e)
+        private void txtClick_Click(object sender, EventArgs e)
         {
-            txtPrintNumbers.SelectAll();
+            UITextBox uITextBox = (UITextBox)sender;
+            if (uITextBox != null)
+            {
+                uITextBox.Focus();
+                uITextBox.SelectAll();
+            }   
         }
 
         private void btnException_Click(object sender, EventArgs e)
@@ -285,7 +308,13 @@ namespace PrintLabel
             //        f.ShowDialog(modal);
             //    }
             //}
-            using (FormReprint f = new FormReprint(data, account, printType))
+            //using (FormReprint f = new FormReprint(data, account, printType))
+            //{
+            //    f.StartPosition = FormStartPosition.CenterParent;
+            //    f.ShowDialog();
+            //}
+
+            using (FormReprint1 f = new FormReprint1(data, account, printType))
             {
                 f.StartPosition = FormStartPosition.CenterParent;
                 f.ShowDialog();
@@ -307,6 +336,24 @@ namespace PrintLabel
         private void btnFixbartender_Click(object sender, EventArgs e)
         {
             new FormConfirm().ShowDialog();
+        }
+
+        private void txtChecker_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                txtPart.Focus();
+                txtPart.SelectAll();
+            }
+        }
+
+        private void txtPart_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                txtPrintNumbers.Focus();
+                txtPrintNumbers.SelectAll();
+            }
         }
     }
 }

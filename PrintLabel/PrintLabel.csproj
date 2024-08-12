@@ -94,6 +94,12 @@
   <ItemGroup>
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\CONSTANT.cs" />
+    <Compile Include="FormCheckReprint.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCheckReprint.Designer.cs">
+      <DependentUpon>FormCheckReprint.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormConfigPath.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,12 @@
     </Compile>
     <Compile Include="FormModal.Designer.cs">
       <DependentUpon>FormModal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReprint1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReprint1.Designer.cs">
+      <DependentUpon>FormReprint1.cs</DependentUpon>
     </Compile>
     <Compile Include="FormReprint.cs">
       <SubType>Form</SubType>
@@ -193,6 +205,9 @@
     <EmbeddedResource Include="FormCheck.resx">
       <DependentUpon>FormCheck.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormCheckReprint.resx">
+      <DependentUpon>FormCheckReprint.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormConfigPath.resx">
       <DependentUpon>FormConfigPath.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPrinter.resx">
       <DependentUpon>FormPrinter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReprint1.resx">
+      <DependentUpon>FormReprint1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormReprint.resx">
       <DependentUpon>FormReprint.cs</DependentUpon>
