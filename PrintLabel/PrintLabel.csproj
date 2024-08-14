@@ -68,10 +68,14 @@
       <HintPath>..\packages\SunnyUI.Common.3.6.8.1\lib\net472\SunnyUI.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.8.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
@@ -94,6 +98,12 @@
   <ItemGroup>
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\CONSTANT.cs" />
+    <Compile Include="FormAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAccount.Designer.cs">
+      <DependentUpon>FormAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormCheckReprint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +164,12 @@
     <Compile Include="FormReprint.Designer.cs">
       <DependentUpon>FormReprint.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSpecial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSpecial.Designer.cs">
+      <DependentUpon>FormSpecial.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,6 +218,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLHelper\ExcelHelper.cs" />
     <Compile Include="SQLHelper\PrintHelper.cs" />
+    <EmbeddedResource Include="FormAccount.resx">
+      <DependentUpon>FormAccount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCheck.resx">
       <DependentUpon>FormCheck.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSelectPrintType.resx">
       <DependentUpon>FormSelectPrintType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSpecial.resx">
+      <DependentUpon>FormSpecial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTest.resx">
       <DependentUpon>FormTest.cs</DependentUpon>

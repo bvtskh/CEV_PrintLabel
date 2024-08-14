@@ -38,9 +38,10 @@
             this.dgvDatabase = new System.Windows.Forms.DataGridView();
             this.context = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
             this.uiSymbolLabel1 = new Sunny.UI.UISymbolLabel();
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.specialAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDatabase)).BeginInit();
             this.context.SuspendLayout();
@@ -148,9 +149,10 @@
             // 
             this.context.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
-            this.deleteToolStripMenuItem});
+            this.deleteToolStripMenuItem,
+            this.specialAccountToolStripMenuItem});
             this.context.Name = "context";
-            this.context.Size = new System.Drawing.Size(181, 70);
+            this.context.Size = new System.Drawing.Size(181, 92);
             // 
             // editToolStripMenuItem
             // 
@@ -158,6 +160,13 @@
             this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem.Text = "Update";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // panel2
             // 
@@ -185,12 +194,12 @@
             this.uiSymbolLabel1.TabIndex = 0;
             this.uiSymbolLabel1.Text = "DATABASE";
             // 
-            // deleteToolStripMenuItem
+            // specialAccountToolStripMenuItem
             // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            this.specialAccountToolStripMenuItem.Name = "specialAccountToolStripMenuItem";
+            this.specialAccountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.specialAccountToolStripMenuItem.Text = "Special Account";
+            this.specialAccountToolStripMenuItem.Click += new System.EventHandler(this.specialAccountToolStripMenuItem_Click);
             // 
             // FormDatabase
             // 
@@ -225,5 +234,6 @@
         private System.Windows.Forms.Panel panel2;
         private Sunny.UI.UISymbolLabel uiSymbolLabel1;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem specialAccountToolStripMenuItem;
     }
 }

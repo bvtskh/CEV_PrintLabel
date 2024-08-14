@@ -126,8 +126,8 @@ namespace PrintLabel
                 if (string.IsNullOrEmpty(txtPrintNumbers.Text) || printNumber <= 0)
                 {
                     UIMessageTip.ShowError("Số lượng in không đúng!", 2000);
-                        txtPrintNumbers.Focus();
-                        txtPrintNumbers.SelectAll();
+                    txtPrintNumbers.Focus();
+                    txtPrintNumbers.SelectAll();
                     return;
                 }
                 using (FormLoading form = new FormLoading(PrintLabel))

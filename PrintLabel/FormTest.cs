@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.IO.Ports;
+using System.Management;
+
 
 namespace PrintLabel
 {
@@ -22,94 +25,157 @@ namespace PrintLabel
 
         private void FormTest_Load(object sender, EventArgs e)
         {
-            ColumnSeries columnSeries1 = new ColumnSeries
-            {
-                Title = "John",
-                Values = new ChartValues<double> { 9 },
-                Fill = new LinearGradientBrush
-                {
-                    GradientStops = new GradientStopCollection
-                        {
-                            new GradientStop(Color.FromRgb(255, 0, 0), 0),   // Start color
-                            new GradientStop(Color.FromRgb(255, 150, 150), 1) // End color
-                        }
-                },
-                DataLabels = true,
-                LabelPoint = point => point.Y.ToString(),
-                MaxColumnWidth = 50, // Adjust width as needed
-                ColumnPadding = 10   // Adjust padding as needed
-            };
+            // Lấy tất cả các cổng COM hiện có trên máy tính
+            string[] ports = SerialPort.GetPortNames();
 
-            ColumnSeries columnSeries2 = new ColumnSeries
-            {
-                Title = "Alex",
-                Values = new ChartValues<double> { 8 },
-                Fill = new LinearGradientBrush
-                {
-                    GradientStops = new GradientStopCollection
-                        {
-                            new GradientStop(Color.FromRgb(0, 255, 0), 0),   // Start color
-                            new GradientStop(Color.FromRgb(150, 255, 150), 1) // End color
-                        }
-                },
-                DataLabels = true,
-                LabelPoint = point => point.Y.ToString(),
-                MaxColumnWidth = 50, // Adjust width as needed
-                ColumnPadding = 10   // Adjust padding as needed
-            };
-
-            ColumnSeries columnSeries3 = new ColumnSeries
-            {
-                Title = "Lyly",
-                Values = new ChartValues<double> { 10 },
-                Fill = new LinearGradientBrush
-                {
-                    GradientStops = new GradientStopCollection
-                        {
-                            new GradientStop(Color.FromRgb(0, 0, 255), 0),   // Start color
-                            new GradientStop(Color.FromRgb(150, 150, 255), 1) // End color
-                        }
-                },
-                DataLabels = true,
-                LabelPoint = point => point.Y.ToString(),
-                MaxColumnWidth = 50, // Adjust width as needed
-                ColumnPadding = 10  // Adjust padding as needed
-            };
-            cartesianChart1.Series = new SeriesCollection{
-                columnSeries1, columnSeries2, columnSeries3
-            };
-            //cartesianChart1.Series = new SeriesCollection
+            //// In ra danh sách các cổng COM
+            //Console.WriteLine("Các cổng COM đang được kết nối:");
+            //foreach (string port in ports)
             //{
-            //    new ColumnSeries
-            //    {
+            //    Console.WriteLine(port);
+            //    GetDeviceInformation(port);
+            //}
 
-            //    },
-            //    new ColumnSeries
-            //    {
+            //// Liệt kê tất cả các thiết bị USB
+            //Console.WriteLine("\nCác thiết bị USB đang được kết nối:");
+            //GetUSBDevices();
 
-            //    },
-            //    new ColumnSeries
-            //    {
+            // Liệt kê tất cả các thiết bị lưu trữ
+            // Console.WriteLine("\nCác thiết bị lưu trữ đang được kết nối:");
+            //GetDiskDevices();
+            GetCameraDevices();
+        }
 
-            //    }
-            //};
+        //static void GetDeviceInformation(string portName)
+        //{
+        //    string query = $"SELECT * FROM Win32_PnPEntity WHERE Caption LIKE '%({portName})%'";
 
-            cartesianChart1.AxisX.Add(new Axis
+        //    try
+        //    {
+        //        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+        //        {
+        //            foreach (ManagementObject obj in searcher.Get())
+        //            {
+        //                Console.WriteLine($"Tên thiết bị: {obj["Name"]}");
+        //                Console.WriteLine($"Mô tả thiết bị: {obj["Description"]}");
+        //                Console.WriteLine($"Nhà sản xuất: {obj["Manufacturer"]}");
+        //                Console.WriteLine($"Địa chỉ cổng: {obj["DeviceID"]}");
+        //                Console.WriteLine();
+        //            }
+        //        }
+        //    }
+        //    catch (ManagementException e)
+        //    {
+        //        Console.WriteLine($"Lỗi khi truy vấn WMI: {e.Message}");
+        //    }
+        //    catch (UnauthorizedAccessException e)
+        //    {
+        //        Console.WriteLine($"Không đủ quyền truy cập: {e.Message}");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine($"Lỗi khác: {e.Message}");
+        //    }
+        //}
+
+        //static void GetUSBDevices()
+        //{
+        //    string query = "SELECT * FROM Win32_PnPEntity WHERE Caption LIKE '%USB%'";
+
+        //    try
+        //    {
+        //        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+        //        {
+        //            foreach (ManagementObject obj in searcher.Get())
+        //            {
+        //                Console.WriteLine($"Tên thiết bị: {obj["Name"]}");
+        //                Console.WriteLine($"Mô tả thiết bị: {obj["Description"]}");
+        //                Console.WriteLine($"Nhà sản xuất: {obj["Manufacturer"]}");
+        //                Console.WriteLine($"ID thiết bị: {obj["DeviceID"]}");
+        //                Console.WriteLine();
+        //            }
+        //        }
+        //    }
+        //    catch (ManagementException e)
+        //    {
+        //        Console.WriteLine($"Lỗi khi truy vấn WMI: {e.Message}");
+        //    }
+        //    catch (UnauthorizedAccessException e)
+        //    {
+        //        Console.WriteLine($"Không đủ quyền truy cập: {e.Message}");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine($"Lỗi khác: {e.Message}");
+        //    }
+        //}
+
+        static void GetDiskDevices()
+        {
+            string query = "SELECT * FROM Win32_Cameras";
+
+            try
             {
-                Title = "Students",
-                Labels = new[] { "" }
-            });
-
-            cartesianChart1.AxisY.Add(new Axis
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+                {
+                    foreach (ManagementObject obj in searcher.Get())
+                    {
+                        Console.WriteLine($"Tên thiết bị: {obj["Model"]}");
+                        Console.WriteLine($"Mô tả thiết bị: {obj["Caption"]}");
+                        Console.WriteLine($"Loại thiết bị: {obj["MediaType"]}");
+                        Console.WriteLine($"Số serial: {obj["SerialNumber"]}");
+                        Console.WriteLine($"Kích thước: {obj["Size"]}");
+                        Console.WriteLine($"ID thiết bị: {obj["DeviceID"]}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            catch (ManagementException e)
             {
-                Title = "Scores",
-                LabelFormatter = value => value.ToString("N")
-            });
+                Console.WriteLine($"Lỗi khi truy vấn WMI: {e.Message}");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine($"Không đủ quyền truy cập: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Lỗi khác: {e.Message}");
+            }
+        }
+        static void GetCameraDevices()
+        {
+            string query = "SELECT * FROM Win32_PnPEntity WHERE Caption LIKE '%Camera%' OR Caption LIKE '%Video%'";
 
-            cartesianChart1.LegendLocation = LegendLocation.Top;
-
-            // Disable tooltips
-            cartesianChart1.DataTooltip = null;
+            try
+            {
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+                {
+                    foreach (ManagementObject obj in searcher.Get())
+                    {
+                        Console.WriteLine($"Tên thiết bị: {obj["Name"]}");
+                        Console.WriteLine($"Mô tả thiết bị: {obj["Description"]}");
+                        Console.WriteLine($"Nhà sản xuất: {obj["Manufacturer"]}");
+                        Console.WriteLine($"ID thiết bị: {obj["DeviceID"]}");
+                        Console.WriteLine($"PN ID: {obj["PNPDeviceID"]}");
+                        Console.WriteLine($"serial: {obj["SerialNumber"]}");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            catch (ManagementException e)
+            {
+                Console.WriteLine($"Lỗi khi truy vấn WMI: {e.Message}");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine($"Không đủ quyền truy cập: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Lỗi khác: {e.Message}");
+            }
         }
     }
 }
+//PCI\VEN_8086&DEV_A363&SUBSYS_83E1103C&REV_10\3&11583659&1&B3

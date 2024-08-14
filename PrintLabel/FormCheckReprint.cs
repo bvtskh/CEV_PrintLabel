@@ -98,7 +98,10 @@ namespace PrintLabel
                 btFomart.PrintOut(false, false);
                 btFomart.Close(BarTender.BtSaveOptions.btDoNotSaveChanges);
                 MessageBox.Show("Printed success full!");
-                this.Close();
+                this.BeginInvoke(new Action(() =>
+                {
+                    this.Close();
+                }));
             }
             else
             {

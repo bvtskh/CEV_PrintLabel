@@ -70,9 +70,17 @@ namespace PrintLabel
             }
             if (AccountHelper.IsStaff(account))
             {
-                var button = GetAllButtons(this).Where(w => w.Name == "btnConfig").FirstOrDefault();
-                button.Enabled = false;
+                var button = GetAllButtons(this).Where(w => w.Name == "btnConfig" || w.Name == "btnAccount").ToList();
+                foreach (var b in button)
+                {
+                    b.Enabled = false;
+                }
             }
+            if (AccountHelper.IsSpecial())
+            {
+               btnAccount.Enabled = true;
+            }
+            else { btnAccount.Enabled = false; }
         }
         private List<UISymbolButton> GetAllButtons(Control control)
         {
@@ -554,6 +562,11 @@ namespace PrintLabel
         private void btnPrintOuterBox_Click(object sender, EventArgs e)
         {
             new FormPrinter(CONSTANT.PRINT_OUTERBOX_TYPE, account.FULLNAME).ShowDialog();
+        }
+
+        private void btnAccount_Click(object sender, EventArgs e)
+        {
+             new FormAccount().ShowDialog();
         }
     }
 }

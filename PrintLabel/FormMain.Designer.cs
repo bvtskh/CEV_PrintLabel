@@ -52,6 +52,7 @@
             this.btnPrintBody = new Sunny.UI.UISymbolButton();
             this.btnPrintOuterBox = new Sunny.UI.UISymbolButton();
             this.btnPrintRating = new Sunny.UI.UISymbolButton();
+            this.splitter3 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.cbException = new Sunny.UI.UIRadioButton();
             this.cbNormal = new Sunny.UI.UIRadioButton();
@@ -71,7 +72,7 @@
             this.process2 = new Sunny.UI.UIProgressIndicator();
             this.graphCircle = new ZedGraph.ZedGraphControl();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.splitter3 = new System.Windows.Forms.Splitter();
+            this.btnAccount = new Sunny.UI.UISymbolButton();
             this.uiPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -219,6 +220,7 @@
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel10.Controls.Add(this.uiSymbolLabel4);
             this.panel10.Controls.Add(this.uiMarkLabel2);
+            this.panel10.Controls.Add(this.btnAccount);
             this.panel10.Controls.Add(this.btnDatabase);
             this.panel10.Controls.Add(this.btnConfig);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -379,6 +381,16 @@
             this.btnPrintRating.Text = "Rating";
             this.btnPrintRating.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.btnPrintRating.Click += new System.EventHandler(this.btnPrintRating_Click);
+            // 
+            // splitter3
+            // 
+            this.splitter3.BackColor = System.Drawing.Color.Black;
+            this.splitter3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.splitter3.Location = new System.Drawing.Point(0, 238);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(387, 1);
+            this.splitter3.TabIndex = 5;
+            this.splitter3.TabStop = false;
             // 
             // panel3
             // 
@@ -589,15 +601,22 @@
             this.graphCircle.TabIndex = 2;
             this.graphCircle.UseExtendedPrintDialog = true;
             // 
-            // splitter3
+            // btnAccount
             // 
-            this.splitter3.BackColor = System.Drawing.Color.Black;
-            this.splitter3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter3.Location = new System.Drawing.Point(0, 238);
-            this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(387, 1);
-            this.splitter3.TabIndex = 5;
-            this.splitter3.TabStop = false;
+            this.btnAccount.BackColor = System.Drawing.Color.Transparent;
+            this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAccount.FillColor = System.Drawing.Color.Crimson;
+            this.btnAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btnAccount.Location = new System.Drawing.Point(22, 153);
+            this.btnAccount.MinimumSize = new System.Drawing.Size(1, 1);
+            this.btnAccount.Name = "btnAccount";
+            this.btnAccount.RectColor = System.Drawing.Color.Transparent;
+            this.btnAccount.Size = new System.Drawing.Size(138, 35);
+            this.btnAccount.Symbol = 559603;
+            this.btnAccount.TabIndex = 1;
+            this.btnAccount.Text = "Account";
+            this.btnAccount.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
             // 
             // FormMain
             // 
@@ -673,5 +692,6 @@
         private Sunny.UI.UIRadioButton cbNormal;
         private LiveCharts.WinForms.CartesianChart graphColumns;
         private System.Windows.Forms.Splitter splitter3;
+        private Sunny.UI.UISymbolButton btnAccount;
     }
 }

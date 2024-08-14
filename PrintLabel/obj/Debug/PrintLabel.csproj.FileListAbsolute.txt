@@ -54,3 +54,7 @@ C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\obj\Debug\PrintLabe
 C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\obj\Debug\PrintLabel.FormConfirm.resources
 C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\obj\Debug\PrintLabel.FormReprint1.resources
 C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\obj\Debug\PrintLabel.FormCheckReprint.resources
+C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\obj\Debug\PrintLabel.FormSpecial.resources
+C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\obj\Debug\PrintLabel.FormAccount.resources
+C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\bin\Debug\System.CodeDom.dll
+C:\Users\HP\Desktop\Thanh\3.PrintLabel\PrintLabel\PrintLabel\bin\Debug\System.CodeDom.xml

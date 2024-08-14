@@ -34,7 +34,6 @@
             this.btnLogin = new Sunny.UI.UISymbolButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.uiMarkLabel1 = new Sunny.UI.UIMarkLabel();
-            this.uiMarkLabel2 = new Sunny.UI.UIMarkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +41,7 @@
             // 
             this.txtAccount.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtAccount.Location = new System.Drawing.Point(49, 69);
+            this.txtAccount.Location = new System.Drawing.Point(49, 126);
             this.txtAccount.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtAccount.MinimumSize = new System.Drawing.Size(1, 16);
             this.txtAccount.Name = "txtAccount";
@@ -60,7 +59,7 @@
             // 
             this.txtPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.txtPassword.Location = new System.Drawing.Point(49, 105);
+            this.txtPassword.Location = new System.Drawing.Point(49, 175);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtPassword.MinimumSize = new System.Drawing.Size(1, 16);
             this.txtPassword.Name = "txtPassword";
@@ -79,7 +78,7 @@
             // 
             this.btnLogin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.btnLogin.Location = new System.Drawing.Point(49, 149);
+            this.btnLogin.Location = new System.Drawing.Point(49, 259);
             this.btnLogin.MinimumSize = new System.Drawing.Size(1, 1);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(223, 35);
@@ -93,7 +92,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(3, -15);
+            this.pictureBox1.Location = new System.Drawing.Point(104, 54);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(110, 53);
             this.pictureBox1.TabIndex = 7;
@@ -101,37 +100,25 @@
             // 
             // uiMarkLabel1
             // 
+            this.uiMarkLabel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.uiMarkLabel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.uiMarkLabel1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.uiMarkLabel1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.uiMarkLabel1.Location = new System.Drawing.Point(119, 4);
+            this.uiMarkLabel1.ForeColor = System.Drawing.Color.Black;
+            this.uiMarkLabel1.Location = new System.Drawing.Point(0, 0);
             this.uiMarkLabel1.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
             this.uiMarkLabel1.Name = "uiMarkLabel1";
             this.uiMarkLabel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.uiMarkLabel1.Size = new System.Drawing.Size(160, 39);
+            this.uiMarkLabel1.Size = new System.Drawing.Size(317, 39);
             this.uiMarkLabel1.TabIndex = 9;
             this.uiMarkLabel1.Text = "PRINT LABEL";
             this.uiMarkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // uiMarkLabel2
-            // 
-            this.uiMarkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.uiMarkLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.uiMarkLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.uiMarkLabel2.Location = new System.Drawing.Point(-1, 38);
-            this.uiMarkLabel2.MarkPos = Sunny.UI.UIMarkLabel.UIMarkPos.Bottom;
-            this.uiMarkLabel2.Name = "uiMarkLabel2";
-            this.uiMarkLabel2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.uiMarkLabel2.Size = new System.Drawing.Size(323, 10);
-            this.uiMarkLabel2.TabIndex = 10;
             // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(317, 213);
-            this.Controls.Add(this.uiMarkLabel2);
+            this.ClientSize = new System.Drawing.Size(317, 323);
             this.Controls.Add(this.uiMarkLabel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnLogin);
@@ -154,6 +141,5 @@
         private Sunny.UI.UISymbolButton btnLogin;
         private System.Windows.Forms.PictureBox pictureBox1;
         private Sunny.UI.UIMarkLabel uiMarkLabel1;
-        private Sunny.UI.UIMarkLabel uiMarkLabel2;
     }
 }

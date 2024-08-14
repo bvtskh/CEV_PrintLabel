@@ -1,4 +1,5 @@
-﻿using PrintLabel.SQLHelper;
+﻿using PrintLabel.Models;
+using PrintLabel.SQLHelper;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace PrintLabel
 {
     public partial class FormLogin : Form
     {
+        USER user;
         public FormLogin()
         {
             InitializeComponent();
@@ -27,26 +29,26 @@ namespace PrintLabel
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            using(FormLoading f = new FormLoading(Login))
+            using (FormLoading f = new FormLoading(Login))
             {
                 f.ShowDialog();
+            }
+            if(user != null)
+            {
+                this.Hide();
+                new FormMain(user).ShowDialog();
+                this.Close();
             }
         }
 
         private void Login()
         {
-            var account = AccountHelper.GetAccount(txtAccount.Text, txtPassword.Text);
-            if (account == null)
+            user = AccountHelper.GetAccount(txtAccount.Text, txtPassword.Text);
+            if (user == null)
             {
                 UIMessageTip.ShowError("Thông tin tài khoản hoặc mật khẩu không chính xác!");
                 return;
-            }
-            this.BeginInvoke(new Action(() =>
-            {
-                this.Hide();
-                new FormMain(account).ShowDialog();
-                this.Close();
-            }));
+            } 
         }
 
         private void txtPassword_KeyDown(object sender, KeyEventArgs e)

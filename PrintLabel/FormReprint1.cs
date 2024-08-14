@@ -131,10 +131,10 @@ namespace PrintLabel
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            using (FormLoading form = new FormLoading(PrintLabel))
-            {
-                form.ShowDialog(this);
-            }
+            //using (FormLoading form = new FormLoading(PrintLabel))
+            //{
+            //    form.ShowDialog(this);
+            //}
         }
 
         private void PrintLabel()

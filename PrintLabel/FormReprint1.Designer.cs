@@ -42,7 +42,6 @@
             this.txtCell = new Sunny.UI.UITextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtDest = new Sunny.UI.UITextBox();
-            this.btnPrint = new Sunny.UI.UISymbolButton();
             this.lbPrinter = new System.Windows.Forms.Label();
             this.lbPrintType = new System.Windows.Forms.Label();
             this.lbCharNumber = new System.Windows.Forms.Label();
@@ -248,24 +247,6 @@
             this.txtDest.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.txtDest.Watermark = "";
             // 
-            // btnPrint
-            // 
-            this.btnPrint.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPrint.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(10)))), ((int)(((byte)(25)))));
-            this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.btnPrint.Location = new System.Drawing.Point(440, 359);
-            this.btnPrint.MinimumSize = new System.Drawing.Size(1, 1);
-            this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Radius = 15;
-            this.btnPrint.RectColor = System.Drawing.Color.Transparent;
-            this.btnPrint.Size = new System.Drawing.Size(105, 44);
-            this.btnPrint.Symbol = 559565;
-            this.btnPrint.SymbolSize = 30;
-            this.btnPrint.TabIndex = 11;
-            this.btnPrint.Text = "Print";
-            this.btnPrint.TipsFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
-            // 
             // lbPrinter
             // 
             this.lbPrinter.AutoSize = true;
@@ -394,7 +375,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(550, 330);
+            this.label9.Location = new System.Drawing.Point(446, 299);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(85, 18);
             this.label9.TabIndex = 1;
@@ -436,7 +417,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 417);
             this.Controls.Add(this.cbbReason);
-            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.txtChecker);
             this.Controls.Add(this.txtDest);
             this.Controls.Add(this.txtCell);
@@ -488,7 +468,6 @@
         private Sunny.UI.UITextBox txtCell;
         private System.Windows.Forms.Label label10;
         private Sunny.UI.UITextBox txtDest;
-        private Sunny.UI.UISymbolButton btnPrint;
         private System.Windows.Forms.Label lbPrinter;
         private System.Windows.Forms.Label lbPrintType;
         private System.Windows.Forms.Label lbCharNumber;

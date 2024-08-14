@@ -36,6 +36,10 @@ namespace PrintLabel
 
         private void FormDatabase_Load(object sender, EventArgs e)
         {
+            if (!AccountHelper.IsSpecial())
+            {
+                context.Items[2].Visible=false;
+            }
             if(!AccountHelper.IsAdmin())           
             {
                 btnAdd.Enabled = false;
@@ -100,6 +104,15 @@ namespace PrintLabel
                     }
                     btnSearch_Click(null, null);
                 }
+            }
+        }
+
+        private void specialAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (selectRow != null)
+            {
+                new FormSpecial(selectRow).ShowDialog();
+                btnSearch_Click(null, null);
             }
         }
     }

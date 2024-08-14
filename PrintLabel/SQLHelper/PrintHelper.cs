@@ -15,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.Media3D;
 
 namespace PrintLabel.SQLHelper
 {
@@ -358,6 +359,7 @@ namespace PrintLabel.SQLHelper
                 }
             }
             catch (Exception)
+
             {
                 return false;
             }
@@ -498,7 +500,7 @@ namespace PrintLabel.SQLHelper
                         }
                         if(existed == null)
                         {
-                            MessageBox.Show("Không tim thấy model này, vui lòng kiểm tra lại!");
+                            MessageBox.Show("Không tìm thấy model này, vui lòng kiểm tra lại!");
                             return false;
                         }    
                         if (existed != null)
@@ -566,6 +568,61 @@ namespace PrintLabel.SQLHelper
                         return false;
                     }   
                 } 
+            }
+        }
+
+        internal bool UpdateModel(string model, string printType, string cell, string dest, string bartender, string database, string startCode, int charNumber, int totalPrinted)
+        {
+            using (var db = new DBContext())
+            {
+                using (var trans = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var print = GetPrintType(printType);
+                        var existed = db.MASTER_DATA.Where(w => w.MODEL == model && w.CELL == cell && w.DEST == dest && w.PRINT_TYPE == print).FirstOrDefault();
+
+                        var old_StartCode = existed.START_CODE ?? "";
+                        var old_Bartender = existed.PRINT_PATH ?? "";
+                        var old_Database = existed.DATABASE_PATH ?? "";
+                        if (existed == null)
+                        {
+                            MessageBox.Show("Không tim thấy model này, vui lòng kiểm tra lại!");
+                            return false;
+                        }
+                        if (existed != null)
+                        {
+                            existed.START_CODE = startCode;
+                            existed.PRINT_PATH = bartender;
+                            existed.DATABASE_PATH = database;
+                            existed.UPD_TIME = DateTime.Now;
+                            existed.USER_UPDATE = AccountHelper.Account.ACCOUNT;
+                            existed.MODEL = model;
+                            existed.CELL = cell;
+                            existed.DEST = dest;
+                            existed.PRINT_TYPE = print;
+                            existed.CHAR_NUMBER =charNumber;
+                            db.Entry(existed).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        
+                        var update = db.PRINTED_UPDATE.Where(w=>w.DATA_ID == existed.ID).FirstOrDefault();
+                        if (update != null)
+                        {
+                            update.PRINTED_TOTAL = totalPrinted;
+                            db.Entry(update).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        trans.Commit();
+                        return true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        return false;
+                    }
+                }
             }
         }
 
